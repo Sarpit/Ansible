@@ -1,0 +1,45 @@
+---
+ - name: upgrade all packages
+   yum:
+     name: '*'
+     state: latest
+   
+ - name: Installling mariadb
+   yum:
+     name: "{{ db_pkg }}"
+     state: present
+   when: db_pkg is defined
+   register: result
+  
+ - name: installing epel
+   yum:
+     name: "{{ dpd_pkg }}" 
+     state: present
+
+ - name: installing pip
+   yum:
+     name:  python3-pip
+     state: present
+
+
+ - name: Make sure pymysql is present
+   pip:
+     name: pymysql
+     executable: pip3
+     state: present
+
+ - name: Starting mariadb service
+   service:
+     name: "{{ svc }}"
+     state: started
+     enabled: yes
+   when: result.rc == 0
+
+ - name: mysql_root_password
+   mysql_user:
+     login_user: root
+     login_password: "{{ mysql_root_password }}"
+     user: root
+     check_implicit_admin: true
+     password: "{{ mysql_root_password }}"
+     host: localhost

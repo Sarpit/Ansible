@@ -1,0 +1,41 @@
+---
+ - name: Playing httpd server
+   hosts: myserver
+   become: yes
+   tasks:
+     - name: Installing httpd & firewalld
+       yum:
+         name: "{{ pkg }}"
+         state: present
+
+     - name: Starting service of httpd
+       service:
+         name: httpd
+         enabled: true
+         state: started
+
+     - name: Starting firewalld service
+       service:
+         name: firewalld
+         enabled: true
+         state: started
+
+     - name: Allowing httpd from firewall
+       firewalld:
+         service: http
+         permanent: true
+         state: enabled
+         immediate: yes
+        
+     - name: copying file to /var/www/html
+       copy:
+         src: ./index.html
+         dest: /var/www/html/
+
+ - name: Checking httpd
+   hosts: myserver
+   tasks:
+     - name: connect to intranet
+       uri:
+         url: http://127.0.0.1
+         status_code: 200

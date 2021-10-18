@@ -1,0 +1,9 @@
+---
+ - name: Installing and configuring Mariadb
+   hosts: mariadb_server
+   tasks:
+     - name: Including variable
+       include_vars: vars/variable.yaml
+     
+     - name: Including Tasks
+       include: tasks/tasks.yaml

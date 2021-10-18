@@ -1,0 +1,26 @@
+---
+ - name: install yum utils
+   yum: 
+     name: yum-utils
+     state: present
+
+ - name: copying docker repo
+   copy:
+     src: ../docker-ce.repo
+     dest: /etc/yum.repos.d/
+
+ - name: Installing docker packages
+   yum:
+     name: "{{ docker_pkg }}"
+     state: present
+
+ - name: docker service start 
+   service:
+     name: "{{ svc }}"
+     enabled: yes
+     state: started
+
+ - name: adding {{ docker_user }} to docker group
+   user:
+     name: "{{ docker_user }}"
+     groups: docker

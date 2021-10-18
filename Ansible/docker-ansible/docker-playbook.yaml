@@ -1,0 +1,10 @@
+---
+ - name: Installing docker
+   hosts: docker_server
+   tasks:
+     - name: Including variables
+       include_vars: vars/docker_variable.yml
+
+     - name: Including task
+       include: tasks/install.yaml
+

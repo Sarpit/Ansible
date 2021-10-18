@@ -1,0 +1,11 @@
+db_pkg:
+  - mariadb-server
+
+svc: mariadb
+
+dpd_pkg:
+  - epel-release
+  - MySQL-python 
+
+mysql_root_password: mysql_root_password
+

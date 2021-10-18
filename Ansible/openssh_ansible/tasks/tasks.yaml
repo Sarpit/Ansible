@@ -1,0 +1,13 @@
+---
+ - name: creating ssh key
+   openssh_keypair:
+     path: "/home/{{ ansible_user  }}/.ssh/{{ key_name }}"
+     size: 2048
+     type: rsa
+
+ - name: Copying ssh key-pair
+   copy:
+     src: "/home/{{ ansible_user  }}/.ssh/{{ key_name }}.pub"
+     dest: "/home/{{ remote_user }}/.ssh/"
+   delegate_to: "{{ item }}"
+   with_items: "{{ groups['server'] }}"

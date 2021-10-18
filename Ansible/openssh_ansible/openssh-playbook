@@ -1,0 +1,10 @@
+---
+ - name: creating ssh key pair
+   hosts: localhost
+   tasks:
+     - name: Include variable
+       include_vars: vars/variable.yaml
+    
+     - name: Include tasks
+       include: tasks/tasks.yaml
+ 
